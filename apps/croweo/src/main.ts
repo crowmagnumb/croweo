@@ -1,9 +1,9 @@
 import { NodeUtils } from "@animalus/node-core";
 import express from "express";
-import { FileUtils } from "@animalus/corejs";
 import { CroweoConfig } from "@crowmagnumb/croweo-core";
 import pino from "pino";
 import path from "path";
+import { RandomUtils } from "@animalus/corejs";
 
 // const configDir = __dirname;
 const configDir = "/opt/config/croweo"
@@ -18,21 +18,15 @@ const logger = pino({
     }
 });
 
-const allmusic = NodeUtils.walkDir(config.music.rootDir, (file => {
-    let ext = FileUtils.getExtension(file);
-    if (!ext) {
-        return false;
-    }
-    ext = ext.toLowerCase();
-    return ext === "flac" || ext === "ogg" || ext === "mp3";
-}))
+const dataDir = "/opt/data/croweo"
+const allmusic = await NodeUtils.readFileToLines(path.join(dataDir, "music_library.txt"));
 
 logger.info(`Library has [${allmusic.length}] files`)
 
 const app = express();
 
-app.get('/', (req, res) => {
-    res.send({ message: 'Hello API' });
+app.get('/random', (req, res) => {
+    res.send(RandomUtils.nextItem(allmusic));
 });
 
 const port = config.port ?? 3000;

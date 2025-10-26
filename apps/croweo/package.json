@@ -2,6 +2,7 @@
   "name": "@croweo/croweo",
   "version": "0.0.1",
   "private": true,
+  "type": "module",
   "nx": {
     "targets": {
       "build": {
@@ -13,9 +14,6 @@
         "options": {
           "platform": "node",
           "outputPath": "apps/croweo/dist",
-          "format": [
-            "cjs"
-          ],
           "bundle": false,
           "main": "apps/croweo/src/main.ts",
           "tsConfig": "apps/croweo/tsconfig.app.json",

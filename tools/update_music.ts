@@ -13,4 +13,7 @@ const allmusic = NodeUtils.walkDir(config.music.rootDir, (file => {
     }
     ext = ext.toLowerCase();
     return ext === "flac" || ext === "ogg" || ext === "mp3";
-}))
+}));
+
+const dataDir = "/opt/data/croweo"
+NodeUtils.writeTextFileSync(path.join(dataDir, "music_library.txt"), allmusic.join("\n"));
