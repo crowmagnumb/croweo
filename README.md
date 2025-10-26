@@ -1,5 +1,7 @@
 # Croweo
 
+TODO: As soon as I imported RandomPlayer from the library it stopped working ...
+
 # I created this using ...
 
 ```sh

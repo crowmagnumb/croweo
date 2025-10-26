@@ -5,6 +5,33 @@ import pino from "pino";
 import path from "path";
 import { RandomUtils } from "@animalus/corejs";
 
+class RandomMusic {
+    running = false;
+
+    constructor(private rootDir: string, private files: string[]) {}
+
+    private next() {
+        const filename = path.join(this.rootDir, RandomUtils.nextItem(this.files))
+        console.log(`Playing ${filename}`);
+        NodeUtils.execSync(`play ${filename}`);
+        if (this.running) {
+            this.next();
+        }
+    }
+
+    start() {
+        this.running = true;    
+        this.next();    
+    }
+
+    stop() {
+        //
+        // TODO: Kill running process.
+        //
+        this.running = false;
+    }
+}
+
 // const configDir = __dirname;
 const configDir = "/opt/config/croweo"
 
@@ -26,7 +53,9 @@ logger.info(`Library has [${allmusic.length}] files`)
 const app = express();
 
 app.get('/random', (req, res) => {
-    res.send(RandomUtils.nextItem(allmusic));
+    const player = new RandomMusic(config.music.rootDir, allmusic);
+    player.start()
+    res.send();
 });
 
 const port = config.port ?? 3000;
