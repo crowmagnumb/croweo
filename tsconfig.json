@@ -1,13 +1,33 @@
 {
-  "extends": "./tsconfig.base.json",
-  "compileOnSave": false,
-  "files": [],
-  "references": [
-    {
-      "path": "./apps/croweo-e2e"
+    "compileOnSave": false,
+    "compilerOptions": {
+        "sourceMap": true,
+        "declaration": false,
+        "moduleResolution": "node",
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "importHelpers": true,
+        "target": "ES2022",
+        "module": "esnext",
+        "typeRoots": ["node_modules/@types"],
+        "lib": ["ES2022", "dom"],
+        "skipLibCheck": true,
+        "noImplicitAny": false,
+        "skipDefaultLibCheck": true,
+        "allowSyntheticDefaultImports": true,
+        "strictPropertyInitialization": false,
+        "strictNullChecks": false,
+        "baseUrl": "./",
+        "paths": {
+            "@crowmagnumb/croweo-core": ["libs/croweo-core/src/index.ts"]
+        },
+        "useDefineForClassFields": false
     },
-    {
-      "path": "./apps/croweo"
-    }
-  ]
+    "angularCompilerOptions": {
+        "strictTemplates": true,
+        "skipTemplateCodegen": true,
+        "strictMetadataEmit": true,
+        "enableResourceInlining": true
+    },
+    "exclude": ["node_modules", "tmp"]
 }

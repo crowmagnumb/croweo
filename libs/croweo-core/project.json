@@ -1,0 +1,32 @@
+{
+    "name": "croweo-core",
+    "$schema": "../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "libs/croweo-core/src",
+    "projectType": "library",
+    "prefix": "crowmagnumb",
+    "targets": {
+        "build": {
+            "executor": "@nx/js:tsc",
+            "outputs": ["{workspaceRoot}/dist/libs/croweo-core"],
+            "options": {
+                "main": "{projectRoot}/src/index.ts",
+                "outputPath": "dist/{projectRoot}",
+                "tsConfig": "libs/croweo-core/tsconfig.lib.json"
+            }
+        },
+        "test": {
+            "executor": "@nx/jest:jest",
+            "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+            "options": {
+                "jestConfig": "libs/croweo-core/jest.config.ts"
+            }
+        },
+        "lint": {
+            "executor": "@nx/eslint:lint",
+            "options": {
+                "lintFilePatterns": ["libs/croweo-core/src/**/*.ts"]
+            }
+        }
+    },
+    "tags": []
+}
