@@ -1,0 +1,10 @@
+iconRegistry:
+    svgIconSetURLs:
+        - assets/au-core/iconset.14.svg
+i18n:
+    languages:
+        - key: en
+          label: English
+    defaultLang: en
+    translationDirs:
+        - ./assets/au-core/i18n/
