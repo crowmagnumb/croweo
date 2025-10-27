@@ -1,0 +1,8 @@
+htmlWhitespaceSensitivity: "ignore"
+bracketSameLine: true
+bracketSpacing: true
+tabWidth: 4
+overrides:
+    - files: "*.html"
+      options:
+          parser: angular

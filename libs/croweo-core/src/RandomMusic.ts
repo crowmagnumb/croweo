@@ -8,17 +8,20 @@ export class RandomMusic {
     constructor(private rootDir: string, private files: string[]) {}
 
     private next() {
-        const filename = path.join(this.rootDir, RandomUtils.nextItem(this.files))
+        const filename = path.join(
+            this.rootDir,
+            RandomUtils.nextItem(this.files)
+        );
         console.log(`Playing ${filename}`);
-        NodeUtils.execSync(`play ${filename}`);
+        NodeUtils.execSync(`play "${filename}"`);
         if (this.running) {
             this.next();
         }
     }
 
     start() {
-        this.running = true;    
-        this.next();    
+        this.running = true;
+        this.next();
     }
 
     stop() {

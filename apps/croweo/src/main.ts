@@ -5,28 +5,32 @@ import pino from "pino";
 import path from "path";
 
 // const configDir = __dirname;
-const configDir = "/opt/config/croweo"
+const configDir = "/opt/config/croweo";
 
-const config = NodeUtils.readYML<CroweoConfig>(path.join(configDir, "config.yml"));
+const config = NodeUtils.readYML<CroweoConfig>(
+    path.join(configDir, "config.yml")
+);
 
 const logger = pino({
     level: config.log?.level ?? "info",
     transport: {
         target: "pino-pretty",
-        options: { colorize: true }
-    }
+        options: { colorize: true },
+    },
 });
 
-const dataDir = "/opt/data/croweo"
-const allmusic = await NodeUtils.readFileToLines(path.join(dataDir, "music_library.txt"));
+const dataDir = "/opt/data/croweo";
+const allmusic = await NodeUtils.readFileToLines(
+    path.join(dataDir, "music_library.txt")
+);
 
-logger.info(`Library has [${allmusic.length}] files`)
+logger.info(`Library has [${allmusic.length}] files`);
 
 const app = express();
 
-app.get('/random', (req, res) => {
+app.get("/random", (req, res) => {
     const player = new RandomMusic(config.music.rootDir, allmusic);
-    player.start()
+    player.start();
     res.send();
 });
 
