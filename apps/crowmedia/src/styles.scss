@@ -1,3 +1,11 @@
 @use "@animalus/core/styles" as au;
+@use "@animalus/core/styles/theme/defaultDark" as dark;
 
 @include au.core();
+
+$font-family: Lato, Helvetica, sans-serif;
+@include au.themes(
+    (
+        (name: default, au-theme: dark.create($font-family)),
+    )
+);

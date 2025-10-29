@@ -20,6 +20,11 @@
                     {
                         "glob": "**/*",
                         "input": "apps/crowmedia/public"
+                    },
+                    {
+                        "glob": "**/*",
+                        "input": "node_modules/@animalus/core/assets",
+                        "output": "assets/au-core"
                     }
                 ],
                 "stylePreprocessorOptions": {

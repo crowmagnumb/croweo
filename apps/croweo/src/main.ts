@@ -3,6 +3,10 @@ import express from "express";
 import { CroweoConfig, RandomMusic } from "@crowmagnumb/croweo-core";
 import pino from "pino";
 import path from "path";
+// import cors from "cors";
+import http from "http";
+import { WebSocket, WebSocketServer } from "ws";
+import { SocketManager } from "./SocketManager";
 
 // const configDir = __dirname;
 const configDir = "/opt/config/croweo";
@@ -28,9 +32,34 @@ logger.info(`Library has [${allmusic.length}] files`);
 
 const app = express();
 
-app.get("/random", (req, res) => {
-    const player = new RandomMusic(config.music.rootDir, allmusic);
+// app.use(
+//     cors({
+//         origin: "http://localhost:4200",
+//         // methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+//         // allowedHeaders: ["Content-Type", "Authorization"],
+//         // credentials: true,
+//     })
+// );
+
+// ----- Attach a WebSocket server to the same HTTP server as the express app, that way we can use the same port -----
+const socket = new SocketManager(
+    new WebSocket.Server({ server: http.createServer(app) })
+);
+
+//
+// Must call init at the start of your application.
+//
+// auhttp.init(apiset);
+
+const player = new RandomMusic(config.music.rootDir, allmusic);
+
+app.post("/random", (req, res) => {
     player.start();
+    res.send();
+});
+
+app.post("/stop", (req, res) => {
+    player.stop();
     res.send();
 });
 

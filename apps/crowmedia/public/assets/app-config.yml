@@ -8,3 +8,11 @@ i18n:
     defaultLang: en
     translationDirs:
         - ./assets/au-core/i18n/
+apiinfo:
+    apis:
+        default:
+            baseURL: http://localhost:3200
+            noCredentials: true
+    defaultKey: default
+website:
+    socketURL: ws://localhost:3200
