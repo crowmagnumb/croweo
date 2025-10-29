@@ -16,3 +16,5 @@ apiinfo:
     defaultKey: default
 website:
     socketURL: ws://localhost:3200
+navbar:
+    title: Croweo
