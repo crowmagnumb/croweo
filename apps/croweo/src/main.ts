@@ -2,17 +2,14 @@ import { NodeUtils } from "@animalus/node-core";
 import express from "express";
 import {
     CroweoConfig,
-    CroweoStatus,
-    LastN,
     MusicFile,
-    MusicFileStatus,
     SOCKET_TYPE_MUSIC,
 } from "@crowmagnumb/croweo-core";
 import pino from "pino";
 import path from "path";
 import cors from "cors";
 import http from "http";
-import { WebSocket, WebSocketServer } from "ws";
+import { WebSocketServer } from "ws";
 import { SocketManager } from "./SocketManager";
 import { MusicPlayer } from "./MusicPlayer";
 
