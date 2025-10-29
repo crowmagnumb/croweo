@@ -1,7 +1,9 @@
-<au-flexbox>
-    <action-button text="Random" (action)="random()" />
-    <action-button text="Skip" (action)="skip()" />
-    <action-button text="Stop" (action)="stop()" />
+<au-flexbox column>
+    <au-flexbox>
+        <action-button text="Random" (action)="random()" />
+        <action-button text="Skip" (action)="skip()" />
+        <action-button text="Stop" (action)="stop()" />
+    </au-flexbox>
     <music-file [mf]="mf" />
     <error-info [error]="error" />
     <ag-grid-angular

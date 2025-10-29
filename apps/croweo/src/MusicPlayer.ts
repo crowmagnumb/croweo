@@ -9,6 +9,7 @@ export class MusicPlayer {
     items: MusicFile[];
     index: number;
     ps: ChildProcess;
+    playing: MusicFile;
 
     constructor(
         private rootDir: string,
@@ -33,6 +34,7 @@ export class MusicPlayer {
 
         this.onNext({ mf });
 
+        this.playing = mf;
         this.ps = exec(
             `play "${path.join(this.rootDir, mf.filename)}"`,
             (error, stdout, stderr) => {
@@ -64,6 +66,7 @@ export class MusicPlayer {
     private stopCurrent() {
         this.ps?.kill();
         this.ps = null;
+        this.playing = null;
     }
 
     skip() {

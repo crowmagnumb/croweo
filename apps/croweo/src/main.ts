@@ -2,7 +2,10 @@ import { NodeUtils } from "@animalus/node-core";
 import express from "express";
 import {
     CroweoConfig,
+    CroweoStatus,
+    LastN,
     MusicFile,
+    MusicFileStatus,
     SOCKET_TYPE_MUSIC,
 } from "@crowmagnumb/croweo-core";
 import pino from "pino";
@@ -52,9 +55,19 @@ app.use(
 const server = http.createServer(app);
 const socket = new SocketManager(new WebSocketServer({ server }));
 
+const history: LastN<MusicFileStatus> = new LastN(20);
+
 const player = new MusicPlayer(config.music.rootDir, allmusic, (mfs) => {
     console.log(mfs);
+    history.add(mfs);
     socket.broadcast({ type: SOCKET_TYPE_MUSIC, data: mfs });
+});
+
+app.get("/status", (req, res) => {
+    res.send({
+        playing: player.playing,
+        history: history.snapshot(),
+    } as CroweoStatus);
 });
 
 app.post("/random", (req, res) => {

@@ -24,3 +24,8 @@ export type MusicFileStatus = {
     mf: MusicFile;
     error?: ErrorInfo;
 };
+
+export type CroweoStatus = {
+    playing: MusicFile;
+    history: MusicFileStatus[];
+};

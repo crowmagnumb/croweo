@@ -1,9 +1,10 @@
 export class LastN<T> {
-    private items: T[] = [];
-
-    constructor(private size: number) {}
+    constructor(private size: number, private items?: T[]) {}
 
     add(item: T) {
+        if (!this.items) {
+            this.items = [];
+        }
         this.items.unshift(item);
         if (this.items.length > this.size) {
             this.items.pop();
@@ -12,6 +13,6 @@ export class LastN<T> {
     }
 
     snapshot() {
-        return this.items.slice();
+        return this.items?.slice();
     }
 }

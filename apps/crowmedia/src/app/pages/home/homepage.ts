@@ -11,8 +11,9 @@ import {
     MusicFile,
     MusicFileStatus,
     SOCKET_TYPE_MUSIC,
+    LastN,
+    CroweoStatus,
 } from "@crowmagnumb/croweo-core";
-import { LastN } from "../../LastN";
 import { MusicFileComponent } from "../../components/musicFile";
 import { ErrorInfo } from "@animalus/corejs";
 import { AgGridAngular } from "ag-grid-angular";
@@ -39,12 +40,12 @@ export class HomePageComponent extends BaseComponent {
             headerName: "Filename",
             valueGetter: (params) => params.data.mf.filename,
             sortable: true,
-            width: 200,
+            width: 400,
         },
         {
             headerName: "Error",
             valueGetter: (params) => params.data?.error,
-            width: 200,
+            width: 400,
         },
     ];
 
@@ -52,6 +53,12 @@ export class HomePageComponent extends BaseComponent {
 
     constructor(private auHttp: AUHttp, socketService: SocketService) {
         super();
+
+        auHttp.get<CroweoStatus>("status").then((status) => {
+            this.history = new LastN(20, status.history);
+            this.hist = status.history;
+            this.mf = status.playing;
+        });
 
         this.takeUntilDestroyed(
             socketService.filteredSub<MusicFileStatus>(SOCKET_TYPE_MUSIC),
