@@ -55,19 +55,12 @@ app.use(
 const server = http.createServer(app);
 const socket = new SocketManager(new WebSocketServer({ server }));
 
-const history: LastN<MusicFileStatus> = new LastN(20);
-
-const player = new MusicPlayer(config.music.rootDir, allmusic, (mfs) => {
-    console.log(mfs);
-    history.add(mfs);
-    socket.broadcast({ type: SOCKET_TYPE_MUSIC, data: mfs });
+const player = new MusicPlayer(config.music.rootDir, allmusic, (status) => {
+    socket.broadcast({ type: SOCKET_TYPE_MUSIC, data: status });
 });
 
 app.get("/status", (req, res) => {
-    res.send({
-        playing: player.playing,
-        history: history.snapshot(),
-    } as CroweoStatus);
+    res.send(player.status());
 });
 
 app.post("/random", (req, res) => {

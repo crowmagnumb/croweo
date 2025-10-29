@@ -1,7 +1,12 @@
 import { RandomUtils } from "@animalus/corejs";
 import path from "path";
 import { ChildProcess, exec } from "child_process";
-import { MusicFile, MusicFileStatus } from "@crowmagnumb/croweo-core";
+import {
+    CroweoStatus,
+    LastN,
+    MusicFile,
+    MusicFileStatus,
+} from "@crowmagnumb/croweo-core";
 
 export class MusicPlayer {
     running = false;
@@ -10,12 +15,20 @@ export class MusicPlayer {
     index: number;
     ps: ChildProcess;
     playing: MusicFile;
+    history = new LastN<MusicFileStatus>(20);
 
     constructor(
         private rootDir: string,
         private collection: MusicFile[],
-        private onNext: (obj: MusicFileStatus) => void
+        private onNext: (obj: CroweoStatus) => void
     ) {}
+
+    public status() {
+        return {
+            playing: this.playing,
+            history: this.history.snapshot(),
+        } as CroweoStatus;
+    }
 
     private next() {
         const mfs = this.items ?? this.collection;
@@ -32,17 +45,19 @@ export class MusicPlayer {
             mf = mfs[this.index];
         }
 
-        this.onNext({ mf });
-
         this.playing = mf;
+
+        this.onNext(this.status());
+
         this.ps = exec(
             `play "${path.join(this.rootDir, mf.filename)}"`,
             (error, stdout, stderr) => {
-                if (error) {
-                    this.onNext({ mf, error });
-                }
+                this.history.add({ mf, error });
                 if (this.running) {
                     this.next();
+                } else {
+                    this.playing = null;
+                    this.onNext(this.status());
                 }
             }
         );
@@ -83,5 +98,7 @@ export class MusicPlayer {
         //
         this.running = false;
         this.stopCurrent();
+        this.playing = null;
+        this.onNext(this.status());
     }
 }

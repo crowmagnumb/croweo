@@ -5,6 +5,7 @@ import {
     AUHttp,
     BaseComponent,
     ErrorInfoComponent,
+    LabeledDataComponent,
     SocketService,
 } from "@animalus/core";
 import {
@@ -25,15 +26,12 @@ import { ColDef, GridOptions } from "ag-grid-community";
         ActionButtonComponent,
         AUFlexboxComponent,
         MusicFileComponent,
-        ErrorInfoComponent,
         AgGridAngular,
+        LabeledDataComponent,
     ],
 })
 export class HomePageComponent extends BaseComponent {
-    history: LastN<MusicFileStatus>;
-    hist: MusicFileStatus[];
-    mf: MusicFile;
-    error: ErrorInfo;
+    status: CroweoStatus;
 
     colDefs: ColDef<MusicFileStatus>[] = [
         {
@@ -44,7 +42,7 @@ export class HomePageComponent extends BaseComponent {
         },
         {
             headerName: "Error",
-            valueGetter: (params) => params.data?.error,
+            valueGetter: (params) => params.data?.error?.message,
             width: 400,
         },
     ];
@@ -55,19 +53,13 @@ export class HomePageComponent extends BaseComponent {
         super();
 
         auHttp.get<CroweoStatus>("status").then((status) => {
-            this.history = new LastN(20, status.history);
-            this.hist = status.history;
-            this.mf = status.playing;
+            this.status = status;
         });
 
         this.takeUntilDestroyed(
-            socketService.filteredSub<MusicFileStatus>(SOCKET_TYPE_MUSIC),
-            (item) => {
-                this.hist = this.history.add(item);
-                this.mf = item.mf;
-                if (item.error) {
-                    this.error = item.error;
-                }
+            socketService.filteredSub<CroweoStatus>(SOCKET_TYPE_MUSIC),
+            (status) => {
+                this.status = status;
             }
         );
     }
