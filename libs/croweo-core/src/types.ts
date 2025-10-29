@@ -1,3 +1,7 @@
+import { ErrorInfo } from "@animalus/corejs";
+
+export const SOCKET_TYPE_MUSIC = "music";
+
 export type MusicConfig = {
     rootDir: string;
 };
@@ -14,4 +18,9 @@ export type CroweoConfig = {
 
 export type MusicFile = {
     filename: string;
+};
+
+export type MusicFileStatus = {
+    mf: MusicFile;
+    error?: ErrorInfo;
 };

@@ -1,4 +1,13 @@
 <au-flexbox>
     <action-button text="Random" (action)="random()" />
+    <action-button text="Skip" (action)="skip()" />
     <action-button text="Stop" (action)="stop()" />
+    <music-file [mf]="mf" />
+    <error-info [error]="error" />
+    <ag-grid-angular
+        class="ag-theme-alpine"
+        style="width: 100%; height: 400px"
+        [rowData]="hist"
+        [columnDefs]="colDefs"
+        [gridOptions]="gridOptions" />
 </au-flexbox>
