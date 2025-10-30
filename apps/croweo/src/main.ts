@@ -1,10 +1,7 @@
 import { NodeUtils } from "@animalus/node-core";
 import express from "express";
-import {
-    CroweoConfig,
-    MusicFile,
-    SOCKET_TYPE_MUSIC,
-} from "@crowmagnumb/croweo-core";
+import { CroweoConfig, SOCKET_TYPE_MUSIC } from "@crowmagnumb/croweo-core";
+import { MusicLibrary } from "@crowmagnumb/croweo-node";
 import pino from "pino";
 import path from "path";
 import cors from "cors";
@@ -28,14 +25,10 @@ const logger = pino({
     },
 });
 
-const dataDir = "/opt/data/croweo";
-const files = await NodeUtils.readFileToLines(
-    path.join(dataDir, "music_library.txt")
-);
+const library = new MusicLibrary();
+library.load();
 
-const allmusic = files.map((filename) => ({ filename } as MusicFile));
-
-logger.info(`Library has [${allmusic.length}] files`);
+logger.info(`Library has [${library.size()}] files`);
 
 const app = express();
 
@@ -52,7 +45,7 @@ app.use(
 const server = http.createServer(app);
 const socket = new SocketManager(new WebSocketServer({ server }));
 
-const player = new MusicPlayer(config.music.rootDir, allmusic, (status) => {
+const player = new MusicPlayer(config.music.rootDir, (status) => {
     socket.broadcast({ type: SOCKET_TYPE_MUSIC, data: status });
 });
 
@@ -61,7 +54,7 @@ app.get("/status", (req, res) => {
 });
 
 app.post("/random", (req, res) => {
-    player.random();
+    player.start(library.files, true);
     res.send();
 });
 

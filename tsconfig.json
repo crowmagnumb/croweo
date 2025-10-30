@@ -19,7 +19,8 @@
         "strictNullChecks": false,
         "baseUrl": "./",
         "paths": {
-            "@crowmagnumb/croweo-core": ["libs/croweo-core/src/index.ts"]
+            "@crowmagnumb/croweo-core": ["libs/croweo-core/src/index.ts"],
+            "@crowmagnumb/croweo-node": ["libs/croweo-node/src/index.ts"]
         },
         "useDefineForClassFields": false
     },

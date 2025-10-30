@@ -19,7 +19,6 @@ export class MusicPlayer {
 
     constructor(
         private rootDir: string,
-        private collection: MusicFile[],
         private onNext: (obj: CroweoStatus) => void
     ) {}
 
@@ -31,7 +30,7 @@ export class MusicPlayer {
     }
 
     private next() {
-        const mfs = this.items ?? this.collection;
+        const mfs = this.items;
 
         let mf: MusicFile;
         if (this._random) {
@@ -63,16 +62,9 @@ export class MusicPlayer {
         );
     }
 
-    random() {
-        this._random = true;
-        this.items = null;
-        this.running = true;
-        this.next();
-    }
-
-    start(items: MusicFile[]) {
+    start(items: MusicFile[], random = false) {
+        this._random = random;
         this.items = items;
-        this._random = false;
         this.index = 0;
         this.running = true;
         this.next();
