@@ -5,6 +5,7 @@ import { MusicLibrary } from "@crowmagnumb/croweo-node";
 import pino from "pino";
 import path from "path";
 import cors from "cors";
+import http from "http";
 import { WebSocketServer } from "ws";
 import { SocketManager } from "./SocketManager";
 import { MusicPlayer } from "./MusicPlayer";
