@@ -37,7 +37,6 @@
         "cors": "^2.8.5",
         "express": "^4.21.2",
         "file-saver": "^2.0.5",
-        "http": "^0.0.1-security",
         "mime": "^4.1.0",
         "mime3": "npm:mime@^3.0.0",
         "music-metadata": "^11.9.0",
