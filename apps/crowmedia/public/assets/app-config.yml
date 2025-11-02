@@ -11,10 +11,8 @@ i18n:
 apiinfo:
     apis:
         default:
-            baseURL: http://localhost:3200
+            baseURL: api
             noCredentials: true
     defaultKey: default
-website:
-    socketURL: ws://localhost:3200
 navbar:
     title: Croweo

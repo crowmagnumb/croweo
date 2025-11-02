@@ -1,6 +1,17 @@
 # Croweo
 
-TODO: As soon as I imported RandomPlayer from the library it stopped working ...
+# Building
+
+```sh
+npx nx build crowmedia
+npx nx build croweo
+```
+
+# Running
+
+```sh
+node dist/apps/croweo/main.js
+```
 
 # I created this using ...
 

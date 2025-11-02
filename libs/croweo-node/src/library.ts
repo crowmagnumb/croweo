@@ -1,7 +1,7 @@
 import path from "path";
 // import { Pool } from "pg";
 import { NodeUtils } from "@animalus/node-core";
-import { MusicFile } from "@crowmagnumb/croweo-core";
+// import { MusicFile } from "@crowmagnumb/croweo-core";
 
 // const pool = new Pool();
 
@@ -25,14 +25,16 @@ import { MusicFile } from "@crowmagnumb/croweo-core";
 // client.release();
 
 export class MusicLibrary {
-    files: MusicFile[];
+    // files: MusicFile[];
+    files: { filename: string }[];
 
     load() {
         const dataDir = "/opt/data/croweo";
         return NodeUtils.readFileToLines(
             path.join(dataDir, "music_library.txt")
         ).then((files) => {
-            this.files = files.map((filename) => ({ filename } as MusicFile));
+            // this.files = files.map((filename) => ({ filename } as MusicFile));
+            this.files = files.map((filename) => ({ filename }));
             return this.files;
         });
     }

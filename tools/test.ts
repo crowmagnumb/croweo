@@ -14,28 +14,30 @@ library.load().then(async (files) => {
     for (const file of files) {
         const fullpath = path.join(config.music.rootDir, file.filename);
         const metadata = await parseFile(fullpath);
-        // if (metadata.common.picture) {
-        //     //
-        //     // TODO: extract the pictures?
-        //     // We should at least see what they are.
-        //     //
-        //     console.log(file.filename);
-        //     console.log(metadata);
-        //     console.log("===================================================");
-        // }
+        if (metadata.common.picture?.length) {
+            //
+            // TODO: extract the pictures?
+            // We should at least see what they are.
+            //
+            console.log(file.filename);
+            console.log(metadata.common.picture);
+            console.log("===================================================");
+        }
 
+        //
+        // Findings with below. Sheesh. Need to make
         //
         //   artists: [ 'Hunters', 'Collectors' ],
         //   artist: 'Hunters',
-
-        if (
-            metadata.common.artists?.length > 1 ||
-            (metadata.common.artists?.length === 1 &&
-                metadata.common.artists[0] !== metadata.common.artist)
-        ) {
-            console.log(file.filename);
-            console.log(metadata.common);
-            console.log("===================================================");
-        }
+        //
+        // if (
+        //     metadata.common.artists?.length > 1 ||
+        //     (metadata.common.artists?.length === 1 &&
+        //         metadata.common.artists[0] !== metadata.common.artist)
+        // ) {
+        //     console.log(file.filename);
+        //     console.log(metadata.common);
+        //     console.log("===================================================");
+        // }
     }
 });

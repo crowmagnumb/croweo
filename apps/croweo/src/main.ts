@@ -26,7 +26,7 @@ const logger = pino({
 });
 
 const library = new MusicLibrary();
-library.load();
+await library.load();
 
 logger.info(`Library has [${library.size()}] files`);
 
@@ -49,26 +49,36 @@ const player = new MusicPlayer(config.music.rootDir, (status) => {
     socket.broadcast({ type: SOCKET_TYPE_MUSIC, data: status });
 });
 
-app.get("/status", (req, res) => {
+app.get("/api/status", (req, res) => {
     res.send(player.status());
 });
 
-app.post("/random", (req, res) => {
+app.post("/api/random", (req, res) => {
     player.start(library.files, true);
     res.send();
 });
 
-app.post("/skip", (req, res) => {
+app.post("/api/skip", (req, res) => {
     player.skip();
     res.send();
 });
 
-app.post("/stop", (req, res) => {
+app.post("/api/stop", (req, res) => {
     player.stop();
     res.send();
 });
 
+const __dirname = import.meta.dirname; // ESM version of __dirname
+const angularDist = path.join(__dirname, "../crowmedia");
+
+app.use(express.static(angularDist));
+
+// For any other route, serve Angular’s index.html
+app.get("*", (_, res) => {
+    res.sendFile(path.join(angularDist, "index.html"));
+});
+
 const port = config.port ?? 3000;
-server.listen(port, () => {
+server.listen(port, "0.0.0.0", () => {
     console.log(`App ready listening on port [${port}]`);
 });

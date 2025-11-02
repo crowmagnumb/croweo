@@ -2,6 +2,7 @@
     "name": "@cromagnumb/croweorepo",
     "version": "0.0.0",
     "license": "MIT",
+    "type": "module",
     "scripts": {
         "setup": "npx rimraf node_modules dist && npm i",
         "serve:server": "nx serve croweo",
